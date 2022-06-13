@@ -4,6 +4,8 @@ export async function writeSpecs(projectRoot: string, specs: string[]) {
     specs,
   });
 
+  const msg = `Cypress Explorer could not write specs. Is the Cypress Explorer server running?`;
+
   try {
     const res = await window.fetch("http://localhost:9991/writeSpec", {
       method: "POST",
@@ -12,12 +14,10 @@ export async function writeSpecs(projectRoot: string, specs: string[]) {
       },
       body: data,
     });
-    if (res.ok) {
-      console.log("ok");
-    } else {
-      console.log("uh oh", res);
+    if (!res.ok) {
+      throw Error(msg);
     }
   } catch (e) {
-    console.error("Error!", e);
+    console.error(msg, e);
   }
 }

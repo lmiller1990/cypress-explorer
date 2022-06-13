@@ -19,12 +19,12 @@ describe("Explorer", { viewportWidth: 1000, viewportHeight: 660 }, () => {
   it("works", () => {
     const onClose = cy.stub()
 
-    const Parent = h("div", { style: "height: 600px" }, [
+    const Parent = h("div", { style: "height: 600px; background: gray;" }, [
       h(Explorer, { specs, onClose }),
     ]);
 
     cy.mount(() => Parent);
-    cy.get('#close-explorer').click().then(() => {
+    cy.get('#ex-close-explorer').click().then(() => {
       expect(onClose).to.have.been.calledOnce
     })
   });

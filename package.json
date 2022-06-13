@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "vue-tsc --noEmit && vite build"
+    "build": "vite build src/frontend --config src/frontend/vite.config.ts",
+    "server": "ts-node plugin/server.ts"
   },
   "dependencies": {
     "vue": "^3.2.25"
