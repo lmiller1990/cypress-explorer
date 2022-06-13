@@ -128,32 +128,32 @@ function createExplorer(mount: HTMLDivElement) {
   return () => {
     injectStyle(EXPLORER, explorerStyle);
     injectStyle(EXPLORER_ICON, explorerIconStyle);
-    injectStyle('explorer-parent', explorerParentStyle);
+    injectStyle("explorer-parent", explorerParentStyle);
     injectIcon();
     app.mount(mount);
   };
 }
 
-export function registerCypressExplorer () {
+export function registerCypressExplorer() {
   // @ts-expect-error - Available via Mocha (global)
   before(async () => {
     const root = window?.top?.document.querySelector("#app");
 
     if (!root) {
-      throw Error(`Could not find #root`)
+      throw Error(`Could not find #root`);
     }
 
-    const explorer = window?.top?.document.querySelector("#explorer")
+    const explorer = window?.top?.document.querySelector("#explorer");
 
     if (explorer) {
-      explorer.remove()
+      explorer.remove();
     }
 
     const explorerMountPoint = document.createElement("div");
     explorerMountPoint.id = "explorer";
 
     root.insertAdjacentElement("afterbegin", explorerMountPoint);
-    const mount = createExplorer(explorerMountPoint)
-    mount()
+    const mount = createExplorer(explorerMountPoint);
+    mount();
   });
 }

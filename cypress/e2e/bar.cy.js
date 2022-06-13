@@ -1,5 +1,5 @@
-describe('bar', () => {
-  it('passes', () => {
-    expect(1).to.eq(1)
-  })
-})
+describe("bar", () => {
+  it("passes", () => {
+    expect(1).to.eq(1);
+  });
+});

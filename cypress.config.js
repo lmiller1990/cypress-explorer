@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const viteConfig = require("./src/frontend/vite.config");
 
-console.log(viteConfig)
+console.log(viteConfig);
 
 module.exports = defineConfig({
   e2e: {
@@ -37,7 +37,7 @@ module.exports = defineConfig({
     devServer: {
       framework: "vue",
       bundler: "vite",
-      viteConfig: viteConfig.default
+      viteConfig: viteConfig.default,
     },
   },
 });

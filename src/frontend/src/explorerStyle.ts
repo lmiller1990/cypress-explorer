@@ -1,4 +1,4 @@
-export const exWrapper = 'ex-wrapper'
+export const exWrapper = "ex-wrapper";
 
 export const explorerParentStyle = `
   #explorer {
@@ -12,7 +12,7 @@ export const explorerParentStyle = `
     height: 500px;
     z-index: 500;
   }
-`
+`;
 
 export const explorerIconStyle = `
   #explorer-icon {
@@ -27,7 +27,7 @@ export const explorerIconStyle = `
     color: #bec2d3;
     transition: 0.1s;
   }
-`
+`;
 
 export const explorerStyle = `
   #${exWrapper} {
@@ -115,4 +115,4 @@ export const explorerStyle = `
     transition: 0.1s;
     outline: 2px solid #4956e338;
   }
-`
+`;

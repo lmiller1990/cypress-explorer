@@ -1,2 +1,2 @@
-import "./bar.cy.js"
-import "./foo.cy.js"
+import "./bar.cy.js";
+import "./foo.cy.js";

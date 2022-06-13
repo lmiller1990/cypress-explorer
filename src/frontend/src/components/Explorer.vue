@@ -28,7 +28,7 @@ async function handleSubmit() {
 
   await writeSpecs(projectRoot, specs);
 
-  handleClose()
+  handleClose();
 }
 
 function handleInput(spec: string) {

@@ -1,4 +1,4 @@
 {
-  "projectRoot": "/Users/lachlan/code/dump/basic-cypress", 
+  "projectRoot": "/Users/lachlan/code/dump/basic-cypress",
   "specs": ["foo.js", "bar.js"]
 }
