@@ -1,6 +1,7 @@
 import { h } from "vue";
-import { Spec } from "../main";
+import { Spec } from "./main";
 import Explorer from "./Explorer.vue";
+import { explorerStyle } from "./explorerStyle";
 
 const filenames =
   "foo bar baz qux some-spec-with-a-very-very-very-very-very-long-name".split(
@@ -23,7 +24,12 @@ describe("Explorer", { viewportWidth: 1000, viewportHeight: 660 }, () => {
       h(Explorer, { specs, onClose }),
     ]);
 
-    cy.mount(() => Parent);
+    cy.mount(() => Parent, {
+      styles: [
+        // default to visible for component testing
+        explorerStyle.replace("display: none", "display: block"),
+      ],
+    });
     cy.get("#ex-close-explorer")
       .click()
       .then(() => {

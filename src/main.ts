@@ -1,17 +1,12 @@
 import { createApp } from "vue";
-import Explorer from "./components/Explorer.vue";
+import Explorer from "./Explorer.vue";
+import type { Spec } from "./types";
 import {
   explorerStyle,
   explorerIconStyle,
   exWrapper,
   explorerParentStyle,
 } from "./explorerStyle";
-
-export interface Spec {
-  absolute: string;
-  relative: string;
-  specType: "integration" | "e2e";
-}
 
 declare global {
   interface Window {

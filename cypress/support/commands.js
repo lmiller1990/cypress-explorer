@@ -24,6 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-import { registerCypressExplorer } from "../../src/frontend/dist/cypress-explorer.es";
+import { registerCypressExplorer } from "../../dist/cypress-explorer.es";
 
 registerCypressExplorer();

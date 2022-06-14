@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { Spec } from "../main";
+import type { Spec } from "./types";
 import { writeSpecs } from "./api";
-import { exWrapper } from "../explorerStyle";
+import { exWrapper } from "./explorerStyle";
 
 const props = defineProps<{
   specs: Spec[];
