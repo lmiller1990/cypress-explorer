@@ -18,7 +18,7 @@ export default defineConfig({
 })
 ```
 
-2. Install the command ('cypress/commands/e2e.ts')
+2. Install the command (`cypress/commands/e2e.ts`)
 
 ```ts
 import { registerCypressExplorer } from 'cypress/explorer'
