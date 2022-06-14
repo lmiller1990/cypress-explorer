@@ -7,6 +7,7 @@ WIP.
 1. Install the plugin (`cypress.config.ts`)
 
 ```ts
+import { defineConfig } from 'cypress'
 import { startExplorerServer } from 'cypress-explorer/server'
 
 export default defineConfig({
@@ -21,7 +22,7 @@ export default defineConfig({
 2. Install the command (`cypress/commands/e2e.ts`)
 
 ```ts
-import { registerCypressExplorer } from 'cypress/explorer'
+import { registerCypressExplorer } from 'cypress-explorer'
 
 registerCypressExplorer()
 ```
