@@ -1,6 +1,6 @@
 {
   "name": "cypress-explorer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "scripts": {
     "build": "yarn build:ui && yarn build:server",
@@ -19,6 +19,7 @@
       "require": "./dist/cypress-explorer.umd.js"
     }
   },
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/lmiller1990/cypress-explorer.git"
