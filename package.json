@@ -1,6 +1,6 @@
 {
   "name": "cypress-explorer",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "build": "yarn build:ui && yarn build:server",
