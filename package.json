@@ -1,7 +1,6 @@
 {
-  "name": "basic-cypress",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "cypress-explorer",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "build": "yarn build:ui && yarn build:server",
@@ -10,6 +9,21 @@
     "server": "ts-node plugin/server.ts",
     "lint": "prettier . --write"
   },
+  "exports": {
+    "./plugin": {
+      "import": "./dist/server",
+      "require": "./dist/server"
+    },
+    "./command": {
+      "import": "./dist/cypress-explorer.es.js",
+      "require": "./dist/cypress-explorer.umd.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lmiller1990/cypress-explorer.git"
+  },
+  "homepage": "https://github.com/lmiller1990/cypress-explorer",
   "dependencies": {
     "vue": "^3.2.25"
   },
