@@ -2,6 +2,7 @@
 import type { Spec } from "./types";
 import { writeSpecs } from "./api";
 import { exWrapper } from "./explorerStyle";
+import { computed, isVNode, ref } from "vue";
 
 const props = defineProps<{
   specs: Spec[];
@@ -15,14 +16,40 @@ const checked = new Map<string, boolean>(
   props.specs.map((spec) => [spec.relative, false])
 );
 
+const filter = ref('')
+
+function normalize (spec: string) {
+  // normalize path separators, remove / and \, lowercase
+  return spec.replace(/\//gi, "").replace(/\\/gi, "").toLowerCase();
+}
+
+const filteredSpecs = computed(() => {
+  return props.specs.filter((x) => {
+    if (!filter.value) {
+      return true
+    }
+    let s = normalize(x.relative)
+    return s.includes(filter.value.toLowerCase())
+  });
+});
+
 async function handleSubmit() {
   // @ts-expect-error - it exists, trust me
   const projectRoot = Cypress.config("projectRoot");
 
   const specs = Array.from(checked).reduce<string[]>((acc, curr) => {
-    if (curr[1]) {
+    // if not filter, return all checked specs
+    if (!filter.value) {
+      if (curr[1]) {
+        return acc.concat(curr[0]);
+      }
+    }
+
+    // checked AND in filter
+    if (curr[1] && normalize(curr[0]).includes(filter.value.toLowerCase())) {
       return acc.concat(curr[0]);
     }
+
     return acc;
   }, []);
 
@@ -49,9 +76,16 @@ function handleClose() {
           ✖
         </button>
       </div>
-      <form class="ex-form">
-        <ul class="ex-ul">
-          <li v-for="spec of specs" :key="spec.relative" class="ex-spec-item">
+      <div class="ex-input-wrapper">
+        <input class="ex-text-input" v-model="filter" placeholder="Filter specs..." />
+      </div>
+      <form id="ex-form">
+        <ul id="ex-ul">
+          <li
+            v-for="spec of filteredSpecs"
+            :key="spec.relative"
+            class="ex-spec-item"
+          >
             <input
               :id="spec.relative"
               :name="spec.relative"

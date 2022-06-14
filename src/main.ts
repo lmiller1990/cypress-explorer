@@ -4,7 +4,7 @@ import type { Spec } from "./types";
 import {
   explorerStyle,
   explorerIconStyle,
-  exWrapper,
+  exParentWrapper,
   explorerParentStyle,
 } from "./explorerStyle";
 
@@ -36,7 +36,7 @@ function openExplorer() {
   }
 
   const explorerWrapper = runner.document.querySelector<HTMLDivElement>(
-    `#${exWrapper}`
+    `#${exParentWrapper}`
   );
 
   if (!explorerWrapper) {
@@ -50,7 +50,7 @@ function closeExplorer() {
   const runner = getRunner();
 
   const explorerWrapper = runner.document.querySelector<HTMLDivElement>(
-    `#${exWrapper}`
+    `#${exParentWrapper}`
   );
 
   if (!explorerWrapper) {

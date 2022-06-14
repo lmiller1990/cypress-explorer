@@ -1,5 +1,5 @@
 import { h } from "vue";
-import { Spec } from "./main";
+import type { Spec } from "./types";
 import Explorer from "./Explorer.vue";
 import { explorerStyle } from "./explorerStyle";
 
@@ -19,6 +19,35 @@ const specs = filenames.map<Spec>((spec) => {
 describe("Explorer", { viewportWidth: 1000, viewportHeight: 660 }, () => {
   it("works", () => {
     const onClose = cy.stub();
+
+    const Parent = h("div", { style: "height: 600px; background: gray;" }, [
+      h(Explorer, { specs, onClose }),
+    ]);
+
+    cy.mount(() => Parent, {
+      styles: [
+        // default to visible for component testing
+        explorerStyle.replace("display: none", "display: block"),
+      ],
+    });
+    cy.get("#ex-close-explorer")
+      .click()
+      .then(() => {
+        expect(onClose).to.have.been.calledOnce;
+      });
+  });
+
+  it("scrolls when too many specs", () => {
+    const onClose = cy.stub();
+
+    const specs: Spec[] = []
+    for (let i = 0; i < 100; i++) {
+      specs.push({
+        specType: 'integration',
+        relative: `./path/to/spec_${i}.js`,
+        absolute: `the/abs/so/lute/path/to/spec_${i}.js`
+      })
+    }
 
     const Parent = h("div", { style: "height: 600px; background: gray;" }, [
       h(Explorer, { specs, onClose }),

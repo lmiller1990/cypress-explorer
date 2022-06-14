@@ -1,16 +1,19 @@
 export const exWrapper = "ex-wrapper";
+export const exParentWrapper = "explorer";
+
 
 export const explorerParentStyle = `
-  #explorer {
+  #${exParentWrapper} {
     position: absolute;
     left: 0; 
-    right: 0; 
     margin-left: auto; 
     margin-right: auto; 
-    width: 800px;
+    width: 600px;
     top: 50px;
+    right: -100px;
     height: 500px;
     z-index: 500;
+    display: none;
   }
 `;
 
@@ -30,24 +33,33 @@ export const explorerIconStyle = `
 `;
 
 export const explorerStyle = `
-  #${exWrapper} {
-    display: none;
-  }
-
   .ex-top-bar {
     display: flex;
     justify-content: flex-end;
-    padding: 0 10px;
     color: red;
     height: 50px;
   }
 
+  .ex-input-wrapper {
+    box-sizing: border-box;
+    margin: 10px 0;
+  }
+
+  .ex-text-input {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 4px;
+    border: 1px solid gray;
+    border-radius: 5px;
+  }
+
   .ex-wrapper {
+    padding: 20px;
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     border: 2px solid gray;
-    padding: 12px;
     font-size: 1.5rem;
     border-radius: 8px;
     background: #f3f4f6;
@@ -59,11 +71,12 @@ export const explorerStyle = `
     flex-direction: column;
   }
 
-  .ex-form {
+  #ex-form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    height: 500px;
+    overflow-y: scroll;
   }
 
   .ex-spec-item {
@@ -75,12 +88,12 @@ export const explorerStyle = `
   }
 
   .ex-input[type="checkbox"] {
-    margin: 5px 8px 0 0;
+    margin: 0 5px;
   }
 
-  .ex-ul {
-    margin: 10px 0;
-    /* height: 100%; */
+  #ex-ul {
+    padding: 0;
+    margin: 10px !important;
   }
 
   .ex-button-wrapper {
@@ -91,23 +104,25 @@ export const explorerStyle = `
   }
 
   #ex-close-explorer {
-    width: 50px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .ex-submit-button {
-    width: 100px;
+    height: 30px;
+    width: 80px;
   }
 
   .ex-button {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
     background: #4956e3;
     color: white;
     border-radius: 4px;
     border: none;
-    padding: 11px 16px;
+    padding: 4px;
     cursor: pointer;
   }
 
