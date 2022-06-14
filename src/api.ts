@@ -1,4 +1,9 @@
-export async function writeSpecs(projectRoot: string, specs: string[]) {
+import type { CypressExplorerSpecFile } from "./types";
+
+export async function writeSpecs(
+  projectRoot: string,
+  specs: string[]
+): Promise<{ specFile: CypressExplorerSpecFile }> {
   const data = JSON.stringify({
     projectRoot,
     specs,
@@ -14,10 +19,10 @@ export async function writeSpecs(projectRoot: string, specs: string[]) {
       },
       body: data,
     });
-    if (!res.ok) {
-      throw Error(msg);
-    }
+    const json = await res.json()
+    console.log(json)
+    return json
   } catch (e) {
-    console.error(msg, e);
+    throw Error(msg);
   }
 }

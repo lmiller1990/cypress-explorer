@@ -3,3 +3,6 @@ export interface Spec {
   relative: string;
   specType: "integration" | "component";
 }
+
+
+export type CypressExplorerSpecFile = `_cypress-explorer.cy.${'js' | 'ts'}`

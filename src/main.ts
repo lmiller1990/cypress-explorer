@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import Explorer from "./Explorer.vue";
-import type { Spec } from "./types";
+import type { CypressExplorerSpecFile, Spec } from "./types";
 import {
   explorerStyle,
   explorerIconStyle,
@@ -112,10 +112,23 @@ function createExplorer(mount: HTMLDivElement) {
     runner.openExplorer = openExplorer;
   }
 
-  const specs = window?.top?.__RUN_MODE_SPECS__;
+  const specs = window?.top?.__RUN_MODE_SPECS__.filter(spec => !spec.relative.includes('_cypress-explorer.cy'));
 
-  function onClose() {
+  function onClose(explorerSpecFile: CypressExplorerSpecFile | null) {
     closeExplorer();
+
+    if (!window?.top || !explorerSpecFile) {
+      return;
+    }
+
+    // construct spec
+    let [root] = window.top.location.href.split("/__/"); 
+    let specUrl = root + `/__/#/specs/runner?file=${explorerSpecFile}`; 
+
+    console.log(window.top.location.href)
+    console.log(specUrl)
+    // run the spec!
+    window.top.location.href = specUrl
   }
 
   const app = createApp(Explorer, { specs, onClose });

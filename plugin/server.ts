@@ -9,53 +9,63 @@ const debug = Debug("cypress-explorer:server");
 
 const PORT = 9991;
 
-export function startExplorerServer () {
-  const app = express();
-  app.use(bodyParser.json());
-  app.use(cors());
+export function startExplorerServer() {
+  return new Promise<void>((resolve, reject) => {
+    const app = express();
+    app.use(bodyParser.json());
+    app.use(cors());
 
-  app.post<{}, {}, { projectRoot: string; specs: string[] }>(
-    "/writeSpec",
-    async (req, res) => {
-      const { projectRoot, specs } = req.body;
-      debug("projectRoot: %s specs %o", projectRoot, specs);
+    app.post<{}, {}, { projectRoot: string; specs: string[] }>(
+      "/writeSpec",
+      async (req, res) => {
+        const { projectRoot, specs } = req.body;
+        debug("projectRoot: %s specs %o", projectRoot, specs);
 
-      const e2eDir = path.join(projectRoot, "cypress", "e2e");
-      debug("e2eDir is set to %s", e2eDir);
+        const e2eDir = path.join(projectRoot, "cypress", "e2e");
+        debug("e2eDir is set to %s", e2eDir);
 
-      const imports = specs
-        .filter((spec) => {
-          // do not include "temp" as a spec - we don't want to
-          // import itself, although technically this doesn't seem to
-          // do anything anyway.
-          return !spec.includes("temp.cy.");
-        })
-        .map((spec) => {
-          // assumes temp.cy.js is at cypress/e2e
-          // and other specs are all inside of cypress/e2e
-          // so we need to make them relative to cypress/e2e
-          // TODO: generic enough to handle custom directory, etc.
-          let relative = spec.replace("cypress/e2e/", "");
+        const isUsingTs = specs.some((x) => x.endsWith(".ts"));
 
-          if (relative.endsWith(".ts")) {
-            relative = relative.slice(0, relative.length - 3);
-          }
+        const imports = specs
+          .filter((spec) => {
+            // do not include "temp" as a spec - we don't want to
+            // import itself, although technically this doesn't seem to
+            // do anything anyway.
+            return !spec.includes(`_cypress-explorer.cy`);
+          })
+          .map((spec) => {
+            // assumes temp.cy.js is at cypress/e2e
+            // and other specs are all inside of cypress/e2e
+            // so we need to make them relative to cypress/e2e
+            // TODO: generic enough to handle custom directory, etc.
+            let relative = spec.replace("cypress/e2e/", "");
 
-          return `import "./${relative}"`;
-        })
-        .join("\n");
+            if (relative.endsWith(".ts")) {
+              relative = relative.slice(0, relative.length - 3);
+            }
 
-      const tempSpec = path.join(e2eDir, "temp.cy.js");
+            return `import "./${relative}"`;
+          })
+          .join("\n");
 
-      debug("creating temp spec %s containing %s", tempSpec, imports);
+        const specFileName = `_cypress-explorer.cy.${isUsingTs ? "ts" : "js"}`;
+        const tempSpec = path.join(e2eDir, specFileName);
 
-      await fs.promises.writeFile(tempSpec, imports, "utf-8");
+        debug("creating temp spec %s containing %s", tempSpec, imports);
 
-      res.status(200).end();
-    }
-  );
+        fs.writeFileSync(tempSpec, imports, "utf-8");
 
-  app.listen(PORT, () =>
-    console.log(`[Cypress Explorer]: Listening on port ${PORT}`)
-  );
+        const specFileRel = path.join('cypress', 'e2e', specFileName)
+
+        res.status(200).json({
+          specFile: specFileRel,
+        });
+      }
+    );
+
+    app.listen(PORT, () => {
+      console.log(`[Cypress Explorer]: Listening on port ${PORT}`);
+      resolve();
+    });
+  });
 }

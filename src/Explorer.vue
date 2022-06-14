@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import type { Spec } from "./types";
+import type { Spec, CypressExplorerSpecFile } from "./types";
 import { writeSpecs } from "./api";
 import { exWrapper } from "./explorerStyle";
-import { computed, isVNode, ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps<{
   specs: Spec[];
 }>();
 
 const emit = defineEmits<{
-  (e: "close"): void;
+  (e: "close", specFile: CypressExplorerSpecFile | null): void;
 }>();
 
 const checked = new Map<string, boolean>(
@@ -53,9 +53,9 @@ async function handleSubmit() {
     return acc;
   }, []);
 
-  await writeSpecs(projectRoot, specs);
+  const { specFile } = await writeSpecs(projectRoot, specs);
 
-  handleClose();
+  handleClose(specFile);
 }
 
 function handleInput(spec: string) {
@@ -63,8 +63,8 @@ function handleInput(spec: string) {
   checked.set(spec, !currentValue);
 }
 
-function handleClose() {
-  emit("close");
+function handleClose(specFile: CypressExplorerSpecFile | null) {
+  emit("close", specFile);
 }
 </script>
 
@@ -72,7 +72,7 @@ function handleClose() {
   <div :id="exWrapper">
     <div class="ex-wrapper">
       <div class="ex-top-bar">
-        <button id="ex-close-explorer" class="ex-button" @click="handleClose">
+        <button id="ex-close-explorer" class="ex-button" @click="() => handleClose(null)">
           ✖
         </button>
       </div>
